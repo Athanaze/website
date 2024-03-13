@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ebeced;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  padding: 40px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 20px 20px 60px #d9dbdf,
+              -20px -20px 60px #ffffff;
+}
+
+.messageBox {
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  background: #ebeced;
+  box-shadow: 8px 8px 16px #c8cdd0,
+              -8px -8px 16px #ffffff;
+}
+
+.uni {
+  display: none;
+}  
+
+#emoji {
+    text-decoration: none;
+    font-size: 20vw;
+}
+    </style>
+  </head>
+<body>
+
+  <div class="messageBox">
+    <h1>Welcome to our service!</h1>
+    <p>A verification link has been sent to your email.</p>
+    
+    <div class="uni">
+        <p id="uniMessage"></p>
+        <a id="emoji">🥳</a>
+    </div>
+
+  </div>
+ <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const uni = urlParams.get('uni');
+
+if (uni == 1) {
+  document.querySelector('.uni').style.display = "block";
+  document.getElementById('uniMessage').innerHTML = 'Congratulations, as a university member, you get 20,000 words for free';
+}
+
+ </script>
+</body>
+</html>

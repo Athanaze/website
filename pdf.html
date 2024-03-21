@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/pdfobject"></script>
     <title>Liechti Consulting</title>
+        <style>
+.pdfobject-container { height: 500px; border: 1px solid #ccc; }
+</style>
   </head>
   <body>
+
+<div id="my-pdf"></div>
   </body>
   <script>
-    PDFObject.embed("https://raw.githubusercontent.com/Athanaze/block_list/main/terms.pdf");
+    PDFObject.embed("https://raw.githubusercontent.com/Athanaze/block_list/main/terms.pdf", "#my-pdf");
 
   </script>
 </html>

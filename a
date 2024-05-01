@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import 'package:frontend_project/screens/display.dart';
+import 'package:frontend_project/widget/WhiteMessageWithCodeWidget.dart';
+import 'package:frontend_project/widget/backButton.dart';
+
+import '../widget/BlueMessageWidget.dart';
+import '../widget/WhiteMessageWidget.dart';
+
+class Chatting extends StatefulWidget {
+  const Chatting({super.key});
+
+  @override
+  State<Chatting> createState() => _ChattingState();
+}
+
+class _ChattingState extends State<Chatting> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                BackButtonWidget()
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  BlueMessageWidget(text: 'This is some text the user just sent'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  WhiteMessageWithCodeWidget(code_text: '''void main() {
+              print('Hello, world!');
+                          }''', before_text: "This is text before the code"),
+                  BlueMessageWidget(text: 'This is some text the user just sent'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  WhiteMessageWidget(text: 'Hello ! I am GPT-4. You received free credits for 5000 words. How can i help you ?'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  BlueMessageWidget(text: 'This is some text the user just sent'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  WhiteMessageWidget(text: 'This is the response that comes after a while'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  WhiteMessageWidget(text:'Hello ! I am GPT-4. You received free credits for 5000 words. How can i help you ?'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  // 'This is some text the user just sent'
+                  BlueMessageWidget(text: 'This is some text the user just sent'),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  WhiteMessageWidget(text: 'This is the response that comes after a while'),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 2,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18.0),
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 3.0,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: 180, 
+                    height: 10, 
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(
+                          5.0), 
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'New Conversation...',
+                            border: InputBorder.none, 
+                            focusedBorder:
+                                InputBorder.none,
+                            enabledBorder:
+                                InputBorder.none, 
+                            errorBorder: InputBorder.none,
+                            disabledBorder:
+                                InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 16.0),
+                          ),
+                          style: TextStyle(fontSize: 18.0, color: Colors.black),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.attach_file,
+                          size: 30,
+                          color: Colors.black,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Display()));
+                        },
+                        child: const CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Color(0xff4381BE),
+                          child: Icon(
+                            Icons.send,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
+  }
+}

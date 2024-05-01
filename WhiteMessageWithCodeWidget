@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
+
+import '../theme/colors.dart';
+
+class WhiteMessageWithCodeWidget extends StatelessWidget {
+  final String before_text;
+  final String code_text;
+
+  WhiteMessageWithCodeWidget({required this.before_text, required this.code_text});
+
+  static const radius = 18.0;
+  final myCustomTheme = {
+    'root': const TextStyle(
+        backgroundColor: Colors.black,
+        color: Colors
+            .white),
+    'comment': const TextStyle(color: Colors.green),
+    'keyword': const TextStyle(color: Colors.blue),
+    'number': const TextStyle(color: Colors.orange),
+    'string': const TextStyle(color: Colors.red),
+    'brackets': const TextStyle(
+        color: Colors.orange),
+
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
+              bottomRight: Radius.circular(18))),
+      child:   Center(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  before_text,
+                  style: TextStyle(fontSize: 15),
+                ),
+              ],
+            ),
+            HighlightView(
+              code_text,
+              language: 'dart',
+              theme: myCustomTheme,
+              padding: const EdgeInsets.all(12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+
+class ChatWidget extends StatelessWidget {
+  ChatWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Column(
+        children: [
+          const SizedBox(height: 45,),
+          const Text(
+            'Thinking about it...',
+            style: TextStyle(fontSize: 15),
+          ),
+          const SizedBox(height: 15,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('images/Ellipse 3.png'),
+              const SizedBox(width: 10,),
+              Image.asset('images/Ellipse 4.png'),
+              const SizedBox(width: 10,),
+              Image.asset('images/Ellipse 5.png'),
+            ],
+          ),
+        ],
+      );
+  }
+}

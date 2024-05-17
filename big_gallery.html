@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Gallery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css">
+  <style>
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-gap: 20px;
+    }
+    .gallery-item {
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery"></div>
+
+  <!-- PhotoSwipe markup -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+      <div class="pswp__ui pswp__ui--hidden">
+        <div class="pswp__top-bar">
+          <div class="pswp__counter"></div>
+          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+          <button class="pswp__button pswp__button--share" title="Share"></button>
+          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+        </div>
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+  <script>
+    // Mock data
+    const mockData = [
+      {
+        "description": "A sprite sheet of a pixel art, rgb monkey that is running towards his destiny",
+        "image_url": "https://gptprepay.com/i/91e11d53-bea7-45d4-8202-936a738f5f71",
+        "timestamp": "Sun, 05 May 2024 16:37:29 GMT"
+      },
+      {
+        "description": "A sprite sheet of a pixel art, LSD-powered monkey that is running towards his destiny",
+        "image_url": "https://gptprepay.com/i/64519f4a-d711-4e08-a946-65fd03d91c12",
+        "timestamp": "Sun, 05 May 2024 16:38:11 GMT"
+      },
+      {
+        "description": "A sprite sheet of a pixel art monkey that is running towards his destiny",
+        "image_url": "https://gptprepay.com/i/e4442a8c-306c-4502-bf23-723ed75afb9d",
+        "timestamp": "Sun, 05 May 2024 16:38:37 GMT"
+      },
+      {
+        "description": "A sprite sheet of a pixel art monkey that is running towards his destiny",
+        "image_url": "https://gptprepay.com/i/4994092b-7faf-4834-8587-66ac75697e2b",
+        "timestamp": "Sun, 05 May 2024 16:39:08 GMT"
+      },
+      {
+        "description": "A sprite sheet of a pixel art monkey that is running towards his destiny",
+        "image_url": "https://gptprepay.com/i/d58eedf3-9ab6-45af-b4e3-039a985b230a",
+        "timestamp": "Sun, 05 May 2024 16:39:41 GMT"
+      }
+    ];
+
+    // Get the value of the 'i' argument from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const iValue = urlParams.get('i');
+
+    // Function to fetch data from the API (commented out for now)
+    // async function fetchData() {
+    //   try {
+    //     const response = await fetch(`https://GPTprepay.com/get_gallery?i=${iValue}`);
+    //     const data = await response.json();
+    //     return data;
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //     return [];
+    //   }
+    // }
+
+    // Function to create gallery items
+    function createGalleryItems(data) {
+      const gallery = document.querySelector('.gallery');
+      data.forEach((item, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.classList.add('gallery-item');
+        galleryItem.setAttribute('data-index', index);
+        galleryItem.innerHTML = `<img src="${item.image_url}" alt="${item.description}">`;
+        gallery.appendChild(galleryItem);
+      });
+    }
+
+    // Function to initialize PhotoSwipe
+    function initPhotoSwipe(data) {
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      const items = data.map(item => ({
+        src: item.image_url,
+        w: 0,
+        h: 0,
+        title: `
+          <p>${item.description}</p>
+          <p>${item.timestamp}</p>
+          <a href="${item.image_url}" download>Download</a>
+        `
+      }));
+
+      galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const options = {
+            index: parseInt(item.getAttribute('data-index')),
+            bgOpacity: 0.7,
+            showHideOpacity: true
+          };
+          const gallery = new PhotoSwipe(document.querySelector('.pswp'), PhotoSwipeUI_Default, items, options);
+          gallery.listen('gettingData', (index, item) => {
+            if (item.w < 1 || item.h < 1) {
+              const img = new Image();
+              img.onload = () => {
+                item.w = img.width;
+                item.h = img.height;
+                gallery.updateSize(true);
+              };
+              img.src = item.src;
+            }
+          });
+          gallery.init();
+        });
+      });
+    }
+
+    // Main function
+    async function main() {
+      // const data = await fetchData();
+      const data = mockData;
+      createGalleryItems(data);
+      initPhotoSwipe(data);
+    }
+
+    main();
+  </script>
+</body>
+</html>

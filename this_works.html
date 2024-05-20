@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IMAGE UPLOAD</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Upload and process your images effortlessly">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        h1, h2 {
+            margin: 20px 0;
+        }
+
+        #upload-base-img {
+            border-radius: 20px;
+            max-height: 50vh;
+        }
+
+        #image-preview {
+            display: none;
+            max-width: 600px;
+            border-radius: 20px;
+            margin: 20px auto;
+        }
+
+        #upload-div {
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #00bfff;
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1 id="page-title">IMAGE UPLOAD</h1>
+    <h2 id="image-upload-description">Upload your image for processing. Click the button below to choose an image file.</h2>
+    <center>
+        <img id="upload-base-img" src="base-image-url.jpg" alt="Base Image">
+    </center>
+    <div id="upload-div">
+        <input type="file" id="image-input" accept="image/*" style="display:none">
+        <center>
+            <button id='uploadBtn' class="btn"> <i class="fas fa-upload"></i> UPLOAD IMAGE</button>
+        </center>
+        <img id="image-preview" src="" alt="Image Preview"/>
+    </div>
+    <center>
+        <button id='process-btn' class="btn" style="display:none"> <i class="fas fa-file-signature"></i> PROCESS IMAGE</button>
+    </center>
+
+    <script>
+        let global_image_filename = "";
+
+        const uploadBtn = document.getElementById('uploadBtn');
+        const imageInput = document.getElementById('image-input');
+        const imagePreview = document.getElementById('image-preview');
+        const processBtn = document.getElementById('process-btn');
+
+        uploadBtn.onclick = () => {
+            imageInput.click();
+        };
+
+        imageInput.onchange = () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    processBtn.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        processBtn.onclick = () => {
+            const file = imageInput.files[0];
+            const formData = new FormData();
+            formData.append('files', file, file.name);
+
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+
+            const spinner = document.createElement('div');
+            spinner.classList.add('spinner');
+
+            const text = document.createElement('p');
+            text.textContent = "Processing your image...\nKeep this tab open.";
+            text.style.color = "#fff";
+            text.style.textAlign = "center";
+            text.style.marginTop = "20px";
+
+            overlay.appendChild(spinner);
+            overlay.appendChild(text);
+            document.body.appendChild(overlay);
+
+            fetch('https://gptprepay.com/user_upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.body.removeChild(overlay);
+
+                if (data.error) {
+                    console.error('Error:', data.error);
+                } else {
+                    const filename = data["uploaded_files"][0]["saved_filename"];
+                    global_image_filename = filename;
+                    const completeUrl = "https://gptprepay.com/users_uploads/" + filename;
+
+                    window.location.href = completeUrl;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.body.removeChild(overlay);
+            });
+        };
+    </script>
+</body>
+
+</html>

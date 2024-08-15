@@ -36,8 +36,6 @@
             ]
         };
     </script>
-
-    <!-- Header -->
     <header class="bg-gray-800 text-white py-4 px-6 fixed w-full z-10">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
@@ -53,36 +51,12 @@
             </nav>
         </div>
     </header>
-
-    <!-- Hero Section -->
-    <section class="relative h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+    <section class="relative h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://assets.storage.infomaniak.website/images/background/unsplash/7oS_26cb1Wo-medium.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <div class="relative text-center text-white z-10">
             <h2 class="text-5xl font-bold mb-4" id="nom_etude"></h2>
             <p class="text-xl mb-8">Expertise juridique à votre service</p>
-            <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105">Prendre rendez-vous</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">À propos de nous</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                <!-- Collaborators will be dynamically added here -->
-            </div>
-            <div class="mt-12">
-                <p id="about_text" class="text-gray-700 mb-6"></p>
-                <blockquote id="about_quote" class="italic text-gray-600 border-l-4 border-blue-500 pl-4"></blockquote>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Contactez-nous</h2>
-            <div class="text-center">
+            <div class="mb-8">
                 <p id="address" class="mb-2"></p>
                 <p id="phone" class="mb-2"></p>
                 <p id="email_address" class="mb-2"></p>
@@ -90,8 +64,28 @@
             </div>
         </div>
     </section>
-
-    <!-- Access Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">À propos de nous</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            </div>
+            <div class="mt-12">
+                <p id="about_text" class="text-gray-700 mb-6"></p>
+                <blockquote id="about_quote" class="italic text-gray-600 border-l-4 border-blue-500 pl-4"></blockquote>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Contactez-nous</h2>
+            <div class="text-center">
+                <p id="address_contact" class="mb-2"></p>
+                <p id="phone_contact" class="mb-2"></p>
+                <p id="email_address_contact" class="mb-2"></p>
+                <p id="hours_contact" class="mb-2"></p>
+            </div>
+        </div>
+    </section>
     <section id="access" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Accès</h2>
@@ -108,13 +102,11 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <p>&copy; 2024 PBSLAW. Tous droits réservés.</p>
+                    <p>&copy; 2023 PBSLAW. Tous droits réservés.</p>
                 </div>
                 <div class="flex space-x-4">
                     <a href="#" class="hover:text-gray-300 transition duration-300"><i class="fab fa-facebook-f"></i></a>
@@ -122,14 +114,9 @@
                     <a href="#" class="hover:text-gray-300 transition duration-300"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
-            <div class="mt-4 text-center">
-                <a href="#" class="text-sm hover:text-gray-300 transition duration-300">Mentions légales</a>
-            </div>
         </div>
     </footer>
-
     <script>
-        // Populate data
         document.getElementById('slogan').textContent = data.slogan;
         document.getElementById('nom_etude').textContent = data.nom_etude;
         document.getElementById('about_text').textContent = data.apropos.texte;
@@ -138,10 +125,12 @@
         document.getElementById('phone').textContent = data.telephone;
         document.getElementById('email_address').textContent = data.email;
         document.getElementById('hours').textContent = data.horaires;
+        document.getElementById('address_contact').textContent = data.adresse;
+        document.getElementById('phone_contact').textContent = data.telephone;
+        document.getElementById('email_address_contact').textContent = data.email;
+        document.getElementById('hours_contact').textContent = data.horaires;
         document.getElementById('full_address').textContent = data.adresse;
         document.getElementById('opening_hours').textContent = data.horaires;
-
-        // Populate collaborators
         const collaboratorsContainer = document.querySelector('#about .grid');
         data.collaborateurs.forEach(collaborator => {
             const collaboratorElement = document.createElement('div');
@@ -154,8 +143,6 @@
             `;
             collaboratorsContainer.appendChild(collaboratorElement);
         });
-
-        // Initialize map
         var map = L.map('map').setView([data.coordonnees_gps.latitude, data.coordonnees_gps.longitude], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -29,10 +29,35 @@
                 "citation": "« La justice est la constante et perpétuelle volonté de rendre à chacun ce qui lui est dû. » - Ulpien"
             },
             "collaborateurs": [
-                { "nom": "P. DE PREUX", "photo": "download.jpeg" },
-                { "nom": "L. BESSO", "photo": "l_besso.jpg" },
-                { "nom": "Mathieu Sinner", "photo": "matthieu_sinner.jpeg" },
-                { "nom": "A de Sellier", "photo": "sellier.jpg" }
+                {
+                    "nom": "Me Patrick de Preux",
+                    "photo": "download.jpeg",
+                    "annee_patente": 1984,
+                    "langues": ["Allemand", "Anglais", "Français"],
+                    "publication": "Professio Juris, Etude de l'article 22 LDRC, 1981",
+                    "mandats": ["Administration d'office", "Autres mandats"]
+                },
+                {
+                    "nom": "Me Laurent Besso",
+                    "photo": "l_besso.jpg",
+                    "annee_patente": 1996,
+                    "langues": ["Allemand", "Anglais", "Français", "Italien"],
+                    "mandats": ["Administration d'office", "Autres mandats", "Bénéfices d'inventaire", "Curatelle", "Inventaires civils", "Inventaires fiscaux", "Partages successoraux"]
+                },
+                {
+                    "nom": "Me Alexis de Selliers",
+                    "photo": "sellier.jpg",
+                    "annee_patente": 2016,
+                    "langues": ["Anglais", "Français"],
+                    "mandats": ["Administration d'office", "Autres mandats", "Bénéfices d'inventaire", "Curatelle", "Inventaires civils", "Partages successoraux"]
+                },
+                {
+                    "nom": "Me Matthieu Sinner",
+                    "photo": "matthieu_sinner.jpeg",
+                    "annee_patente": 2018,
+                    "langues": ["Anglais", "Français", "Grec"],
+                    "mandats": ["Administration d'office", "Autres mandats", "Bénéfices d'inventaire", "Curatelle", "Inventaires civils", "Inventaires fiscaux", "Liquidations de régimes matrimoniaux", "Partages successoraux"]
+                }
             ]
         };
     </script>
@@ -69,8 +94,8 @@
     </section>
     <section id="about" class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">À propos de nous</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Notre équipe</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             </div>
             <div class="mt-12">
                 <p id="about_text" class="text-gray-700 mb-6"></p>
@@ -137,12 +162,21 @@
         const collaboratorsContainer = document.querySelector('#about .grid');
         data.collaborateurs.forEach(collaborator => {
             const collaboratorElement = document.createElement('div');
-            collaboratorElement.className = 'flex flex-col items-center';
+            collaboratorElement.className = 'flex flex-col items-center bg-gray-100 rounded-lg p-6 shadow-md';
             collaboratorElement.innerHTML = `
-                <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden mb-4">
+                <div class="w-32 h-32 rounded-full overflow-hidden mb-4">
                     <img src="${collaborator.photo}" alt="${collaborator.nom}" class="w-full h-full object-cover">
                 </div>
-                <p class="text-center font-semibold text-sm md:text-base">${collaborator.nom}</p>
+                <h3 class="text-xl font-semibold mb-2">${collaborator.nom}</h3>
+                <p class="text-sm text-gray-600 mb-2">Année de patente: ${collaborator.annee_patente}</p>
+                <p class="text-sm text-gray-600 mb-2">Langues: ${collaborator.langues.join(', ')}</p>
+                ${collaborator.publication ? `<p class="text-sm text-gray-600 mb-2">Publication: ${collaborator.publication}</p>` : ''}
+                <div class="mt-4">
+                    <h4 class="text-lg font-semibold mb-2">Mandats:</h4>
+                    <ul class="text-sm text-gray-600 list-disc list-inside">
+                        ${collaborator.mandats.map(mandat => `<li>${mandat}</li>`).join('')}
+                    </ul>
+                </div>
             `;
             collaboratorsContainer.appendChild(collaboratorElement);
         });

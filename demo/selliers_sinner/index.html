@@ -41,7 +41,7 @@
             <div class="flex items-center">
                 <h1 class="text-2xl font-bold" id="slogan"></h1>
             </div>
-            <nav>
+            <nav class="hidden md:block">
                 <ul class="flex space-x-4">
                     <li><a href="#" class="hover:text-gray-300 transition duration-300">Accueil</a></li>
                     <li><a href="#about" class="hover:text-gray-300 transition duration-300">À propos</a></li>
@@ -49,25 +49,28 @@
                     <li><a href="#access" class="hover:text-gray-300 transition duration-300">Accès</a></li>
                 </ul>
             </nav>
+            <button class="md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
-    <section class="relative h-[50vh] flex items-center justify-center bg-cover bg-center" style="background-image: url('https://assets.storage.infomaniak.website/images/background/unsplash/7oS_26cb1Wo-medium.jpg');">
+    <section class="relative h-[70vh] flex items-center justify-center bg-cover bg-center" style="background-image: url('https://liechticonsulting.com/demo/selliers_sinner/bg.png');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative text-center text-white z-10">
-            <h2 class="text-4xl font-bold mb-4" id="nom_etude"></h2>
+        <div class="relative text-center text-white z-10 px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4" id="nom_etude"></h2>
             <p class="text-lg mb-6">Expertise juridique à votre service</p>
-            <div class="mb-6">
-                <p id="address" class="mb-1 text-sm"></p>
-                <p id="phone" class="mb-1 text-sm"></p>
-                <p id="email_address" class="mb-1 text-sm"></p>
-                <p id="hours" class="mb-1 text-sm"></p>
+            <div class="mb-6 text-sm">
+                <p id="address" class="mb-1"></p>
+                <p id="phone" class="mb-1"></p>
+                <p id="email_address" class="mb-1"></p>
+                <p id="hours" class="mb-1"></p>
             </div>
         </div>
     </section>
     <section id="about" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">À propos de nous</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
             </div>
             <div class="mt-12">
                 <p id="about_text" class="text-gray-700 mb-6"></p>
@@ -136,10 +139,10 @@
             const collaboratorElement = document.createElement('div');
             collaboratorElement.className = 'flex flex-col items-center';
             collaboratorElement.innerHTML = `
-                <div class="w-32 h-32 rounded-full overflow-hidden mb-4">
+                <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden mb-4">
                     <img src="${collaborator.photo}" alt="${collaborator.nom}" class="w-full h-full object-cover">
                 </div>
-                <p class="text-center font-semibold">${collaborator.nom}</p>
+                <p class="text-center font-semibold text-sm md:text-base">${collaborator.nom}</p>
             `;
             collaboratorsContainer.appendChild(collaboratorElement);
         });

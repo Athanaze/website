@@ -83,13 +83,6 @@
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <div class="relative text-center text-white z-10 px-4">
             <h2 class="text-3xl md:text-4xl font-bold mb-4" id="nom_etude"></h2>
-            <p class="text-lg mb-6">Expertise juridique à votre service</p>
-            <div class="mb-6 text-sm">
-                <p id="address" class="mb-1"></p>
-                <p id="phone" class="mb-1"></p>
-                <p id="email_address" class="mb-1"></p>
-                <p id="hours" class="mb-1"></p>
-            </div>
         </div>
     </section>
     <section id="about" class="py-16 bg-white">
@@ -134,7 +127,7 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <p>&copy; 2023 PBSLAW. Tous droits réservés.</p>
+                    <p>&copy; 2024 PBSLAW. Tous droits réservés.</p>
                 </div>
                 <div class="flex space-x-4">
                     <a href="#" class="hover:text-gray-300 transition duration-300"><i class="fab fa-facebook-f"></i></a>
@@ -145,14 +138,7 @@
         </div>
     </footer>
     <script>
-        document.getElementById('slogan').textContent = data.slogan;
         document.getElementById('nom_etude').textContent = data.nom_etude;
-        document.getElementById('about_text').textContent = data.apropos.texte;
-        document.getElementById('about_quote').textContent = data.apropos.citation;
-        document.getElementById('address').textContent = data.adresse;
-        document.getElementById('phone').textContent = data.telephone;
-        document.getElementById('email_address').textContent = data.email;
-        document.getElementById('hours').textContent = data.horaires;
         document.getElementById('address_contact').textContent = data.adresse;
         document.getElementById('phone_contact').textContent = data.telephone;
         document.getElementById('email_address_contact').textContent = data.email;

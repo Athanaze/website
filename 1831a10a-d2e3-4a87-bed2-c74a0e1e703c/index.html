@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,21 +17,27 @@
         body {
             font-family: 'Cormorant Garamond', serif;
         }
+        /* Ensure the viewport height is respected by the root elements */
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 
 <body class="bg-white text-black">
 
     <div class="container mx-auto px-4 py-12 md:py-20">
-        <!-- The video list will be populated by JavaScript -->
-        <!-- Videos are centered in a single column -->
+        <!-- Videos are centered in a single column layout -->
         <div id="video-list" class="flex flex-col items-center space-y-12 pb-32">
-            <!-- Video elements will be inserted here dynamically -->
+            <!-- Video elements will be inserted here by JavaScript -->
         </div>
     </div>
 
     <!-- Floating Buy Button -->
-    <a href="https://buy.stripe.com/test_6oU7sNfne3Tw7m5fBF5gc00" 
+    <a href="https://buy.stripe.com/14AaEXfvLbcE6xha0A9MY00" 
        target="_blank" 
        rel="noopener noreferrer"
        class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50">
@@ -48,28 +54,29 @@
 
             if (videoList) {
                 for (let i = 1; i <= numberOfVideos; i++) {
-                    // Pad number with a leading zero (e.g., 1 -> "01")
                     const videoNumber = i.toString().padStart(2, '0');
                     const videoUrl = `${baseUrl}${videoNumber}_watermarked.mp4`;
 
                     // Create the video element
                     const videoElement = document.createElement('video');
                     
-                    // Style the video to be responsive and centered, but let its height be automatic
-                    videoElement.className = 'w-full max-w-2xl h-auto rounded-lg shadow-xl';
+                    // CRITICAL FIX: Constrain height to 90% of the viewport height (vh).
+                    // Width and height are set to auto to maintain aspect ratio.
+                    // max-w-full prevents it from overflowing its container horizontally.
+                    videoElement.className = 'max-h-[90vh] w-auto h-auto max-w-full rounded-lg shadow-xl';
                     
-                    // Set attributes
+                    // Set video attributes
                     videoElement.src = videoUrl;
                     videoElement.loop = true;
-                    videoElement.autoplay = true; // Autoplay might be blocked by browsers if not muted
-                    videoElement.muted = true;    // Muting to allow autoplay
-                    videoElement.playsInline = true; // Essential for autoplay on mobile devices
-                    videoElement.controls = true; // Show native browser controls as requested
+                    videoElement.autoplay = true; 
+                    videoElement.muted = true;    // Muting is required for autoplay in most browsers
+                    videoElement.playsInline = true; // Essential for inline playback on iOS
+                    videoElement.controls = true; // Show native browser controls
 
                     // Add a fallback message for older browsers
                     videoElement.textContent = 'Your browser does not support the video tag.';
                     
-                    // Add the video directly to the list
+                    // Add the finished video element to the list
                     videoList.appendChild(videoElement);
                 }
             }

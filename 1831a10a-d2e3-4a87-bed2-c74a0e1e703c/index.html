@@ -1,45 +1,113 @@
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="w-full h-auto overflow-hidden rounded-lg shadow-lg">
-            <video class="w-full h-full object-cover" loop autoplay muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-white-cat-with-a-red-scarf-on-a-terrace-39958-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="w-full h-auto overflow-hidden rounded-lg shadow-lg">
-            <video class="w-full h-full object-cover" loop autoplay muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-in-a-field-of-wildflowers-39959-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="w-full h-auto overflow-hidden rounded-lg shadow-lg">
-            <video class="w-full h-full object-cover" loop autoplay muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-mother-and-daughter-in-a-meadow-of-wildflowers-39960-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="w-full h-auto overflow-hidden rounded-lg shadow-lg">
-            <video class="w-full h-full object-cover" loop autoplay muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-man-under-a-small-waterfall-4235-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="w-full h-auto overflow-hidden rounded-lg shadow-lg">
-            <video class="w-full h-full object-cover" loop autoplay muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-small-waterfall-in-the-middle-of-a-forest-4229-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-         <div class="w-full h-auto overflow-hidden rounded-lg shadow-lg">
-            <video class="w-full h-full object-cover" loop autoplay muted playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-a-forest-close-view-4223-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curated Video Collection</title>
+    
+    <!-- Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cormorant Garamond -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Applying the luxury font to the whole page */
+        body {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Adding a subtle overlay to hint at the watermark, enhancing the "premium" feel */
+        .video-container::after {
+            content: 'WATERMARKED';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none; /* Make sure it doesn't block video controls if they were enabled */
+        }
+
+        .video-container:hover::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-black">
+
+    <div class="container mx-auto px-4 py-16">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold tracking-tight">A Curated Collection</h1>
+            <p class="text-lg mt-2 text-gray-700">A selection of premium, royalty-free video assets.</p>
+        </header>
+
+        <!-- The video grid will be populated by JavaScript -->
+        <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 pb-32">
+            <!-- Video elements will be inserted here -->
         </div>
     </div>
-</div>
 
-<div class="sticky bottom-0 p-4 bg-white bg-opacity-80 backdrop-blur-md w-full flex justify-center">
-    <button class="bg-black text-white py-3 px-8 rounded-md text-lg font-semibold hover:bg-gray-800 transition-colors">
-        Payer pour les vidéos sans watermark
-    </button>
-</div>
+    <!-- Sticky bottom button -->
+    <div class="fixed bottom-0 left-0 w-full p-4 bg-white/80 backdrop-blur-sm border-t border-gray-200 flex justify-center">
+        <button class="bg-black text-white py-3 px-8 rounded-md text-lg font-semibold hover:bg-gray-800 transition-colors duration-300 shadow-lg">
+            Payer pour les vidéos sans watermark
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoGrid = document.getElementById('video-grid');
+            const baseUrl = 'https://liechticonsulting.com/1831a10a-d2e3-4a87-bed2-c74a0e1e703c/';
+            const numberOfVideos = 10;
+
+            if (videoGrid) {
+                for (let i = 1; i <= numberOfVideos; i++) {
+                    // Pad number with a leading zero (e.g., 1 -> "01")
+                    const videoNumber = i.toString().padStart(2, '0');
+                    const videoUrl = `${baseUrl}${videoNumber}_watermarked.mp4`;
+
+                    // Create the container for the video
+                    const videoContainer = document.createElement('div');
+                    videoContainer.className = 'video-container relative w-full h-auto overflow-hidden rounded-lg shadow-xl aspect-[9/16] sm:aspect-square group';
+
+                    // Create the video element
+                    const videoElement = document.createElement('video');
+                    videoElement.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105';
+                    videoElement.loop = true;
+                    videoElement.autoplay = true;
+                    videoElement.muted = true;
+                    videoElement.playsInline = true; // Essential for autoplay on mobile
+
+                    // Create the source element
+                    const sourceElement = document.createElement('source');
+                    sourceElement.src = videoUrl;
+                    sourceElement.type = 'video/mp4';
+
+                    // Add a fallback message
+                    const fallbackText = document.createTextNode('Your browser does not support the video tag.');
+
+                    // Assemble the elements
+                    videoElement.appendChild(sourceElement);
+                    videoElement.appendChild(fallbackText);
+                    videoContainer.appendChild(videoElement);
+                    
+                    // Add the complete video card to the grid
+                    videoGrid.appendChild(videoContainer);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

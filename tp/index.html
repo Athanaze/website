@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teleprompter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #container {
+            text-align: center;
+            font-size: 2em;
+        }
+        #prompt {
+            display: none;
+            font-size: 3em;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            max-height: 80vh;
+            overflow-y: hidden;
+            padding: 20px;
+            text-align: left;
+        }
+        #instruction {
+            font-size: 4em;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="instruction">PRESS A TO GO OR OUT OF FULL SCREEN</div>
+        <div id="prompt"></div>
+    </div>
+    <script>
+        const teleprompterText = `
+I spend some time looking for APIs and existing serverless model inference,
+to get a feel for the price and the performance,
+if sending the data to a third party is acceptable.
+For sensitive data, it might be worth it to implement
+some anonymisation preprocessing steps locally,
+before doing inference on an existing model via an api.
+`;
+
+        const instruction = document.getElementById('instruction');
+        const prompt = document.getElementById('prompt');
+        prompt.textContent = teleprompterText;
+        let scrollPosition = 0;
+        let isFullScreen = false;
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key.toLowerCase() === 'a') {
+                if (!isFullScreen) {
+                    document.documentElement.requestFullscreen();
+                    instruction.style.display = 'none';
+                    prompt.style.display = 'block';
+                    isFullScreen = true;
+                } else {
+                    document.exitFullscreen();
+                    instruction.style.display = 'block';
+                    prompt.style.display = 'none';
+                    isFullScreen = false;
+                }
+            } else if (isFullScreen && event.key.toLowerCase() === 'b') {
+                scrollPosition += 50;
+                prompt.scrollTop = scrollPosition;
+            } else if (isFullScreen && event.key.toLowerCase() === 'c') {
+                scrollPosition = Math.max(0, scrollPosition - 50);
+                prompt.scrollTop = scrollPosition;
+            }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                isFullScreen = false;
+                instruction.style.display = 'block';
+                prompt.style.display = 'none';
+                scrollPosition = 0;
+                prompt.scrollTop = 0;
+            }
+        });
+    </script>
+</body>
+</html>

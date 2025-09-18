@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Questions Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center mb-8">Legal Questions Explorer</h1>
+
+        <div class="flex justify-center mb-8">
+            <input type="text" id="search-bar" placeholder="Search for 'expropriation'..." class="w-full max-w-lg p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="refresh-button" class="ml-4 px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Get fresh random samples</button>
+        </div>
+
+        <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Results will be injected here -->
+        </div>
+    </div>
+
+    <script>
+        const resultsContainer = document.getElementById('results-container');
+        const searchBar = document.getElementById('search-bar');
+        const refreshButton = document.getElementById('refresh-button');
+        let questions = [];
+        let fuse;
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch('questions.json');
+                questions = await response.json();
+                setupFuse();
+                displayRandomSample();
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                resultsContainer.innerHTML = '<p class="text-red-500 text-center col-span-full">Failed to load legal questions. Please make sure the questions.json file is available.</p>';
+            }
+        }
+
+        function setupFuse() {
+            const options = {
+                includeScore: true,
+                keys: ['question'],
+                threshold: 0.4
+            };
+            const fuseData = questions.map(q => ({ question: q }));
+            fuse = new Fuse(fuseData, options);
+        }
+
+        function displayRandomSample() {
+            resultsContainer.innerHTML = '';
+            const randomSample = questions.sort(() => 0.5 - Math.random()).slice(0, 1000);
+            randomSample.forEach(question => {
+                const card = createQuestionCard(question);
+                resultsContainer.appendChild(card);
+            });
+        }
+
+        function createQuestionCard(question) {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded-lg shadow-md';
+            card.textContent = question;
+            return card;
+        }
+
+        function search() {
+            const query = searchBar.value.trim();
+            if (query === '') {
+                displayRandomSample();
+                return;
+            }
+
+            const searchResults = fuse.search(query);
+            resultsContainer.innerHTML = '';
+
+            if (searchResults.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-gray-500 text-center col-span-full">No matching questions found.</p>';
+                return;
+            }
+
+            searchResults.slice(0, 1000).forEach(result => {
+                const card = createQuestionCard(result.item.question);
+                resultsContainer.appendChild(card);
+            });
+        }
+
+        searchBar.addEventListener('input', search);
+        refreshButton.addEventListener('click', displayRandomSample);
+
+        loadQuestions();
+    </script>
+
+</body>
+</html>
